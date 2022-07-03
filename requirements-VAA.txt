@@ -1,0 +1,8 @@
+playsound
+SpeechRecognition
+wikipedia
+selenium
+webdriver-manager
+gtts
+youtube_search
+pyaudio
