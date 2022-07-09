@@ -1,0 +1,108 @@
+Update thêm 8/7/2022:
+1. lựa chọn công cụ phân tích ngữ nghĩa (dùng thư vieenj nào, chi phí ra sao)
+	thư viện ChatterBot, có tích hợp sẵn công cụ phân tích ngữ nghĩa, lựa chọn
+
+	thư viện mạnh về làm chatbot, đưa dữ liệu vào huấn luyện chứ không cần
+	thao tác thêm gì
+	chi phí: miễn phí
+	
+2. với câu hỏi thông thường thì dùng cái nào để tra cứu, chi phí thế nào?
+	thư viện ChatterBot nhận dạng và trả lời được câu hỏi về thời gian
+	đã code thêm phần gọi api để tra cứu thời tiết
+	dùng wikipedia (tiếng việt) để tra cứu, thư viện python: wikipedia
+	có thể tra google (thư viện selenium (trong trường hợp tệ nhất) hoặc requests)
+	chi phí: miễn phí
+	
+3. với câu hỏi trong danh sách bảng hỏi thì cách xử lý thế nào, dùng thư viện gì
+	chi phí bao nhiêu
+	dựa trên kết quả công cụ phân tích ngữ nghĩa phía trên để lựa chọn trong danh
+	sách câu trả lời có sẵn của từng loại câu hỏi
+	thuật toán được định nghĩa sẵn trong thư viện ChatterBot hoặc có thể tự định nghĩa
+	chi phí: miễn phí
+
+Update 8/7/2022:
+1. lựa chọn công cụ phân tích ngữ nghĩa (dùng thư vieenj nào, chi phí ra sao)
+https://analyticsindiamag.com/top-python-libraries-for-chatbot-development/
+	có thể nêu ra 6 phương án:
+		1 thư viện spaCy
+		2 thư viện ChatterBot
+			(bản thân các câu lệnh ChatterBot ngầm dựa trên spaCy)
+		3 thư viện NLTK
+		4 thư viện TextBlob
+https://textblob.readthedocs.io/en/dev/classifiers.html
+		5 thư viện DeepPavlov
+		6 thư viện PyNLPl
+
+	thư viện có sẵn công cụ phân tích ngữ nghĩa thì trước mắt có ChatterBot
+	và TextBlob, đây là 2 thư viện mạnh về làm chatbot, chỉ đưa dữ liệu vào huấn
+	luyện chứ không cần thao tác thêm gì; 2 thư viện này đều miễn phí (cần xác
+	nhận thêm khi đi sâu vào sử dụng)
+	e mới chỉ tiếp xúc nhiều với Chatterbot (các câu lệnh của Chatterbot ngầm
+	gọi đến spaCy) và đang nhắm đến NLTK nên không phân tích ưu nhược điểm của
+	từng loại được, có vẻ là cả 6 thư viện đều miễn phí
+	
+2. với câu hỏi thông thường thì dùng cái nào để tra cứu, chi phí thế nào?
+	thư viện ChatterBot nhận dạng và trả lời được câu hỏi về thời gian
+	gọi api để tra cứu thời tiết
+	dùng wikipedia (tiếng việt) để tra cứu, thư viện python: wikipedia
+	có thể tra google (thư viện selenium (trong trường hợp tệ nhất) hoặc requests)
+https://stackoverflow.com/questions/22623798/google-search-with-python-requests-library
+	miễn phí
+	
+3. với câu hỏi trong danh sách bảng hỏi thì cách xử lý thế nào, dùng thư viện gì
+	chi phí bao nhiêu
+	dựa trên kết quả công cụ phân tích ngữ nghĩa phía trên để lựa chọn trong danh
+	sách câu trả lời có sẵn của từng loại câu hỏi
+	trong thư viện ChatterBot có sẵn phần lựa chọn này, lựa chọn theo nhiều
+	cách khác nhau
+	miễn phí
+
+7/7/2022:
+Cách thức phân tích của phần mềm core như sau:
+1. lập 1 database các câu hỏi: quản trị sẽ nhập danh sách
+	các câu hỏi- trả lời tương ứng.
+2. nếu khách hỏi vào những câu trong ngân hàng câu hỏi thì
+	trả lời bằng kết quả có sẵn.
+3. nếu khách hỏi những câu khác (ví dụ hôm nay thời tiết như thế nào?)
+	thì sử dụng các thư viện thứ 3 để trả lời (google, wikipedia, youtube,...)
+
+e sẽ tập trung vào bước 2. là bước quan trọng nhất, bước 3. thì code xong
+	rồi tuy nhiên cần xác thực lại
+chủ yếu nó vẫn là bài toán phân loại văn bản: phân loại câu hỏi thuộc vào 
+	nhóm nào (hỏi vị trí phòng, hỏi lịch hoạt động,...) trong ngân hàng
+	câu hỏi sẵn có, rồi dựa trên kết quả phân loại để chọn (ngẫu nhiên hoặc có
+	qui luật) một câu trả lời trong danh sách các câu trả lời thuộc nhóm câu
+	hỏi đó; hiện tại e có 3 phương án:
+1. xây dựng 1 con bot chat tích hợp vào nền tảng mạng xã hội
+	zalo, fb, slack,... phương án này e chỉ nghĩ đến chứ không/chưa
+	tìm hiểu
+	ưu điểm: tận dụng được nền tảng, độ phổ biến của mạng xã hội, có thể
+	là sẽ dễ tìm kiếm hỗ trợ hơn trong bài toán phân loại văn bản
+	nhược điểm: phụ thuộc mạng xã hội, không sát với mô tả (phần mềm android,
+	có admin site để cấu hình quản trị)
+2. tự phát triển hệ thống
+2.1 bài toán phân loại văn bản dùng thư viện tensorflow, keras (hoặc pytorch), nltk,
+	tflearn,... tất cả đều là thư viện miễn phí
+2.2 tự code phần xử lí lựa chọn câu trả lời dựa trên kết quả phân loại
+	ưu điểm:
+		tự phát triển nên hiểu rõ hệ thống; không phụ thuộc quá nhiều vào thư
+		viện viết sẵn, dễ tùy chỉnh hơn, nếu có sai sót thì dễ tìm ra lỗi
+		và sửa (hoặc có phương án thay thế nếu cần thiết)
+		tài liệu đa dạng, nhiều nguồn
+	nhược điểm:
+		không đưa ra được nhiều thuật toán lựa chọn
+	thời gian dự kiến: 1 tháng rưỡi
+3. dùng thư viện sẵn có (đề xuất thư viện miễn phí chatterbot) (có khả năng sẽ
+	dùng đến thư viện có phí nếu phát sinh yêu cầu đặc biệt)
+	ưu điểm:
+		các bước tương tự 2.1, 2.2 đã được tích hợp hết trong thư viện với nhiều
+		thuật toán
+		không yêu cầu hiểu nhiều về bài toán phân loại văn bản
+		dễ hơn và chuẩn hơn cho Duy khi làm tài liệu thuyết minh vì có thể tham khảo
+		trang chủ của thư viện
+	nhược điểm:
+		không nắm rõ được hệ thống như khi tự phát triển, nếu khách hàng có yêu cầu
+		đặc biệt thì thời gian tùy chỉnh sẽ lâu hơn
+	thời gian dự kiến: 1 tháng
+thời gian dự kiến phía trên là hoàn thành phần mềm về cơ bản, chưa tính đến việc sửa khi trong
+quá trình dùng phát sinh ngoại lệ
