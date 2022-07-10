@@ -9,3 +9,5 @@
 chatterbot
 spacy==2.1.3
 nltk
+#sudo python -m spacy download en
+#pip install -U spacy==2.1.3
