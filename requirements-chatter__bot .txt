@@ -1,11 +1,3 @@
-#playsound
-#SpeechRecognition
-#wikipedia
-#selenium
-#webdriver-manager
-#gtts
-#youtube_search
-#pyaudio
 chatterbot
 spacy==2.1.3
 nltk
