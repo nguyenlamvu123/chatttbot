@@ -1,3 +1,29 @@
+Update 12/7/2022:
+1. lựa chọn công cụ phân tích ngữ nghĩa (dùng thư vieenj nào, chi phí ra sao)
+thư viện ChatterBot, có tích hợp sẵn công cụ phân tích ngữ nghĩa, thuật toán lựa chọn; có thể tùy chỉnh
+thư viện TextBlobs, tích hợp sẵn bộ phân loại văn bản; có thể tùy chỉnh
+đây là hai thư viện mạnh về làm chatbot, sẽ được dùng song song, đưa dữ liệu vào huấn luyện và tùy chỉnh thêm theo yêu cầu
+chi phí: miễn phí
+	
+2. với câu hỏi thông thường thì dùng cái nào để tra cứu, chi phí thế nào?
+dùng các thư viện sau:
+	time
+	wikipedia
+	datetime
+	webbrowser
+	smtplib
+	requests
+	urllib
+	urllib.request as urllib2
+	selenium
+	youtube_search
+chi phí: miễn phí
+	
+3. với câu hỏi trong danh sách bảng hỏi thì cách xử lý thế nào, dùng thư viện gì, chi phí bao nhiêu
+dựa trên kết quả phân loại của thư viện để lựa chọn trong danh sách câu trả lời có sẵn của từng loại câu hỏi
+thuật toán được định nghĩa sẵn trong thư viện ChatterBot, TextBlobs hoặc có thể tự định nghĩa
+chi phí: miễn phí
+
 Update thêm 8/7/2022:
 1. lựa chọn công cụ phân tích ngữ nghĩa (dùng thư vieenj nào, chi phí ra sao)
 	thư viện ChatterBot, có tích hợp sẵn công cụ phân tích ngữ nghĩa, lựa chọn

@@ -49,15 +49,17 @@ def stop():
     speak("Hẹn gặp lại bạn sau!")
 
 def get_text():
-    for i in range(3):
-        text = get_audio()
-        if text:
-            return text.lower()
-        elif i < 2:
-            speak("Bot không nghe rõ. Bạn nói lại được không!")
-    time.sleep(2)
-    stop()
-    return 0
+##    for i in range(3):
+##        text = get_audio()
+##        if text:
+##            return text.lower()
+##        elif i < 3:
+##            speak("Bot không nghe rõ. Bạn nói lại được không!")
+##            time.sleep(2)
+##    stop()
+##    return 0
+    text = input()
+    return text.lower()
 
 def hello(name):
     day_time = int(strftime('%H'))
@@ -132,6 +134,7 @@ def send_email(text):
         speak('Bot không hiểu bạn muốn gửi email cho ai. Bạn nói lại được không?')
 
 def current_weather():
+    """https://openweathermap.org/api"""
     speak("Bạn muốn xem thời tiết ở đâu ạ.")
     ow_url = "http://api.openweathermap.org/data/2.5/weather?"
     city = get_text()
@@ -140,7 +143,7 @@ def current_weather():
     api_key = "fe8d8c65cf345889139d8e545f57819a"
     call_url = ow_url + "appid=" + api_key + "&q=" + city + "&units=metric"
     response = requests.get(call_url)
-    data = response.json()
+    data = response.json()#;input(data)
     if data["cod"] != "404":
         city_res = data["main"]
         current_temperature = city_res["temp"]
@@ -159,8 +162,18 @@ def current_weather():
         Nhiệt độ trung bình là {temp} độ C
         Áp suất không khí là {pressure} héc tơ Pascal
         Độ ẩm là {humidity}%
-        Trời hôm nay quang mây. Dự báo mưa rải rác ở một số nơi.""".format(day = now.day,month = now.month, year= now.year, hourrise = sunrise.hour, minrise = sunrise.minute,
-                                                                           temp = current_temperature, pressure = current_pressure, humidity = current_humidity)
+        Trời hôm nay quang mây. Dự báo mưa rải rác ở một số nơi.""".format(
+            day = now.day,
+            month = now.month,
+            year= now.year,
+            hourrise = sunrise.hour,
+            minrise = sunrise.minute,
+            hourset = sunrise.hour,
+            minset = sunrise.minute,
+            temp = current_temperature,
+            pressure = current_pressure,
+            humidity = current_humidity
+            )
         speak(content)
         time.sleep(20)
     else:
@@ -202,7 +215,7 @@ def read_news():
     }
     api_result = requests.get('http://newsapi.org/v2/top-headlines?', params)
     api_response = api_result.json()
-    print("Tin tức")
+    print("Tin tức");print(api_response)
 
     for number, result in enumerate(api_response['articles'], start=1):
         print(f"""Tin {number}:\nTiêu đề: {result['title']}\nTrích dẫn: {result['description']}\nLink: {result['url']}
@@ -245,11 +258,11 @@ def help_me():
 
 def assistant():
     speak("Xin chào, bạn tên là gì nhỉ?")
-#     name = get_text()
-    name = "Đoàn Văn Hậu"
+    name = get_text()
+##    name = "Đoàn Văn Hậu"
     if name:
-        speak("Chào bạn {}".format(name))
-        speak("Bạn cần Bot Alex có thể giúp gì ạ?")
+        speak("Xin chào {}".format(name))
+        speak("Bot Alex có thể giúp gì ạ?")
         while True:
             text = get_text()
             if not text:
