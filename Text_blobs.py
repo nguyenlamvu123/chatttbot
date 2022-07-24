@@ -1,4 +1,8 @@
 from da_ta import da_ta as s
+# Compute accuracy
+print("Accuracy: {0}".format(s.cl.accuracy(s.test)))
+# Show 5 most informative features
+##cl.show_informative_features(5)
 
 ##https://stackoverflow.com/questions/38916452/nltk-download-ssl-certificate-verify-failed
 import ssl
@@ -39,24 +43,20 @@ nltk.download('punkt')
 ##print(cl.classify("Táo dai quá."))  # "pos"
 ##print(cl.classify("Tao ghét ăn nho."))   # "neg"
 ##
-##prob_dist = cl.prob_classify("This one's a doozy.")
-##print(prob_dist.max())
-##print(round(prob_dist.prob("ăn"), 2))
-##print(round(prob_dist.prob("khen"), 2))
-##print(round(prob_dist.prob("giới thiệu"), 2))
+while True:
+    samgiongzon = input('có gì hot ? ')
+    prob_dist = s.cl.prob_classify(samgiongzon)
+    print(prob_dist.max())
+    print('thời tiết: ', round(prob_dist.prob('thời tiết'), 2))
+    print('thời gian: ', round(prob_dist.prob('thời gian'), 2))
+    print('tài chính: ', round(prob_dist.prob('tài chính'), 2))
 
-from textblob import TextBlob
-# Classify a TextBlob
-blob = TextBlob("tao 50 tuổi.", classifier=s.cl)
-print(blob)
-print(blob.classify())
+##from textblob import TextBlob
+### Classify a TextBlob
+##blob = TextBlob("tao 50 tuổi.", classifier=s.cl)
+##print(blob)
+##print(blob.classify())
 
 ##for sentence in blob.sentences:
 ##    print(sentence)
 ##    print(sentence.classify())
-
-# Compute accuracy
-print("Accuracy: {0}".format(s.cl.accuracy(s.test)))
-
-# Show 5 most informative features
-##cl.show_informative_features(5)

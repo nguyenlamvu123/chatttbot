@@ -54,6 +54,16 @@ trainer_corpus.train('chatterbot.corpus.english')
 
 trainer.export_for_training('./db_export.json')
 
+################
+>>> import cPickle
+>>> save_training = open('/tmp/save_training.pickle','wb')
+>>> cPickle.dump(cl,save_training)  # SAVE TRAINED CLASSIFIER
+>>> save_training.close()
+>>> 
+>>> load_training = open('/tmp/save_training.pickle','rb')
+>>> new_cl = cPickle.load(load_training) # LOAD TRAINED CLASSIFIER
+>>> [new_cl.prob_classify("love food").prob('pos'),new_cl.prob_classify("love food").prob('neg')]
+################
 print('Type something to begin...')
 # The following loop will execute each time the user enters input
 while True:
