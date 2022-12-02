@@ -1,4 +1,0 @@
-textblob
-nltk
-#python3 -m textblob.download_corpora
-certifi
