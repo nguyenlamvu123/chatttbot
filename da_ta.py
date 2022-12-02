@@ -1,64 +1,12 @@
-from textblob.classifiers import NaiveBayesClassifier
+##from textblob.classifiers import NaiveBayesClassifier
 from bs4 import BeautifulSoup
 import requests, os 
 
 class Da_ta:
     def __init__(self):
         self.train = []
-        self.test = [
-            ('Hôm qua là thứ mấy ?', 'thời gian'),
-            ('Hôm nay là thứ mấy ?', 'thời gian'),
-            ('Mai là thứ mấy ?', 'thời gian'),
-            ('Ngày kia là thứ mấy ?', 'thời gian'),
-            ('Tháng này là tháng mấy ?', 'thời gian'),
-            ('Năm trước là năm bao nhiêu ?', 'thời gian'),
-            ('Tháng trước là tháng mấy ?', 'thời gian'),
-            ('Thứ hai tuần sau là ngày bao nhiêu ?', 'thời gian'),
-            ('Thứ ba tuần sau là ngày bao nhiêu ?', 'thời gian'),
-            ('Thứ tư tuần sau là ngày bao nhiêu ?', 'thời gian'),
-            ('Thứ năm tuần sau là ngày bao nhiêu ?', 'thời gian'),
-            ('Thứ sáu tuần sau là ngày bao nhiêu ?', 'thời gian'),
-            ('Thứ bảy tuần sau là ngày bao nhiêu ?', 'thời gian'),
-            ('Chủ nhật tuần sau là ngày bao nhiêu ?', 'thời gian'),
-            ('Qua có mát không ?', 'thời tiết'),
-            ('Thời tiết hôm qua có oi không ?', 'thời tiết'),
-            ('Hôm qua có dễ chịu không ?', 'thời tiết'),
-            ('Mai có nắng không ?', 'thời tiết'),
-            ('Ngày mai có mưa không ?', 'thời tiết'),
-            ('Thời tiết ngày mai mát không ?', 'thời tiết'),
-            ('Ngày mai có oi không ?', 'thời tiết'),
-            ('Thời tiết mai có dễ chịu không ?', 'thời tiết'),
-            ("Độ ẩm hôm nay bao nhiêu ?", 'thời tiết'),
-            ("Độ ẩm hôm qua bao nhiêu ?", 'thời tiết'),
-            ("Độ ẩm ngày mai bao nhiêu ?", 'thời tiết'),
-            ("Nhiệt độ hôm nay bao nhiêu ?", 'thời tiết'),
-            ("Nhiệt độ hôm qua bao nhiêu ?", 'thời tiết'),
-            ("Nhiệt độ mai bao nhiêu ?", 'thời tiết'),
-            ('Giá vàng hôm nay thế nào ?', 'tài chính'),
-            ('Giá vàng hôm qua thế nào ?', 'tài chính'),
-            ('Tỷ giá hôm nay thế nào ?', 'tài chính'),
-            ('Tỷ giá hôm qua thế nào ?', 'tài chính'),
-            ('Hôm qua là ngày bao nhiêu ?', 'thời gian'),
-            ('Hôm nay là ngày bao nhiêu ?', 'thời gian'),
-            ('Mai là ngày bao nhiêu ?', 'thời gian'),
-            ('Ngày kia là ngày bao nhiêu ?', 'thời gian'),
-            ('Năm sau là năm bao nhiêu ?', 'thời gian'),
-            ('Tháng sau là tháng mấy ?', 'thời gian'),
-            ('Năm nay là năm bao nhiêu ?', 'thời gian'),
-            ('Thứ ba trước là ngày bao nhiêu ?', 'thời gian'),
-            ('Thời tiết hôm nay thế nào ?', 'thời tiết'),
-            ('Nay có nắng không ?', 'thời tiết'),
-            ('Thời tiết hôm nay có mưa không ?', 'thời tiết'),
-            ('Nay có mát không ?', 'thời tiết'),
-            ('Hôm nay có oi không ?', 'thời tiết'),
-            ('Thời tiết nay có dễ chịu không ?', 'thời tiết'),
-            ('Hôm qua có nắng không ?', 'thời tiết'),
-            ('Thời tiết hôm qua có mưa không ?', 'thời tiết'),
-            ("Độ ẩm hôm nay bao nhiêu ?", 'thời tiết'),
-            ('giá vàng ?', 'tài chính'),
-            ]
-##        self.test = []
-        self.cl = NaiveBayesClassifier(self.train)
+        self.test = []
+##        self.cl = NaiveBayesClassifier(self.train)
 
     @staticmethod 
     def saveload_model(cl=False, newdata=None):
@@ -89,12 +37,13 @@ class Da_ta:
         import json
         with open (
             os.path.join(os.getcwd(), 'data', typ_e+ '.txt'),
-            'w',
+            'a',
             encoding="utf-8"
             ) as f:
-            f.write(json.dumps(new_data))
-        self.cl.update(new_data)
-        print(self.cl.accuracy(self.test))
+            f.write(new_data)
+##            json.dump(new_data, f, ensure_ascii=False))
+##        self.cl.update(new_data)
+##        print(self.cl.accuracy(self.test))
 
     def soup_(self, url, typ_e=None):
         if not url == '':
@@ -108,6 +57,10 @@ class Da_ta:
             for new_data in self.taichinh_(soup):
                 self.updatedata(new_data=new_data, typ_e=typ_e)
             return 
+        elif typ_e == 'phapluat':
+            for new_data in self.phapluat(soup):
+                self.updatedata(new_data=new_data, typ_e=typ_e)
+            return
         elif typ_e == 'thoitiet':
 ##31072022            for new_data in self.thoitiet(soup):
 ##31072022                self.updatedata(new_data=new_data)
@@ -125,6 +78,63 @@ class Da_ta:
 ##            newdata=new_data
 ##            )
         self.updatedata(new_data=new_data, typ_e=typ_e)
+
+    @staticmethod
+    def taichinh_(soup):
+        part = 1
+        while part < 21:
+            div_ = soup.find('div', class_="exam-content")
+            if div_ is None:
+                input("part: "+ str(part))
+            div = div_.find('ul')
+            new_data = ''  # []
+            for art in div.find_all('li'):
+    ##31072022            new_data = []
+                a = art.find('a', href=True)
+                cauhoi = a.find('p').text;print(cauhoi)
+                nd = '\n"' + cauhoi + '"'
+                new_data += nd 
+##                new_data.append((cauhoi, 'tài chính'))
+                for p in art.find_all('p'): 
+                    pp = p.text;print(pp)
+                    nd = '\n"' + pp + '"'
+                    new_data += nd 
+##                    new_data.append((pp, 'tài chính'))
+                    # print(new_data)
+            part += 1
+            soup = Da_ta().soup_(url=s['url'][:-1]+ str(part))
+            yield new_data
+
+    @staticmethod
+    def phapluat(soup):
+        for div in soup.find_all(
+            'div',
+            {'id': lambda x: x and 'group-index-' in x}
+            ):
+            new_data = ''
+            for ul in div.find_all('ul'):
+                for li in ul.find_all('li'):
+                    for a in li.find_all('a'):
+                        hoidap = da_ta.soup_(
+                            url='https://hoidap.thuvienphapluat.vn/' + str(a['href'])
+                            )
+                        cauhoi = hoidap.find(
+                            'div',
+                            {'class': "alert-warning"}
+                            )
+                        nd = '\n"' + cauhoi.text + '"'
+                        new_data += nd 
+                        nd = '\n@@@@@@@@'
+                        new_data += nd 
+                        cautraloi = hoidap.find(
+                            'div',
+                            {"id": "cautraloi"}
+                            )
+                        nd = '\n"' + cautraloi.text + '"' 
+                        new_data += nd 
+                        nd = '\n@@@@@@@@'
+                        new_data += nd 
+            yield new_data
 
     @staticmethod
     def thoitiet(soup):
@@ -184,28 +194,6 @@ class Da_ta:
                 # print(new_data)
 ##31072022            yield new_data
         return new_data
-
-    @staticmethod
-    def taichinh_(soup):
-        part = 1
-        while part < 21:
-            div_ = soup.find('div', class_="exam-content")
-            if div_ is None:
-                input("part: "+ str(part))
-            div = div_.find('ul')
-            new_data = []
-            for art in div.find_all('li'):
-    ##31072022            new_data = []
-                a = art.find('a', href=True)
-                cauhoi = a.find('p').text;print(cauhoi)
-                new_data.append((cauhoi, 'tài chính'))
-                for p in art.find_all('p'): 
-                    pp = p.text;print(pp)
-                    new_data.append((pp, 'tài chính'))
-                    # print(new_data)
-            part += 1
-            soup = Da_ta().soup_(url=s['url'][:-1]+ str(part))
-            yield new_data
 
     @staticmethod
     def thoigian(
@@ -286,17 +274,19 @@ if os.path.exists(
     da_ta.cl = da_ta.saveload_model(cl=False)
 else:
     for s in [
-        {'url': '',
-        'type': 'thoigian'},
-        {'url': 'https://thitruongtaichinhtiente.vn/',
-        'type': 'taichinh'},
+##        {'url': '',
+##        'type': 'thoigian'},
+        {'url': 'https://hoidap.thuvienphapluat.vn/',
+        'type': 'phapluat'},
+##        {'url': 'https://thitruongtaichinhtiente.vn/',
+##        'type': 'taichinh'},
         {'url': 'https://tracnghiem.net/dai-hoc/500-cau-trac-nghiem-tai-chinh-ngan-hang-44.html?mode=part&part=1',
         'type': 'taichinh_'},
-        {'url': 'https://vnexpress.net/tag/du-bao-thoi-tiet-38424',
-        'type': 'thoitiet'},
+##        {'url': 'https://vnexpress.net/tag/du-bao-thoi-tiet-38424',
+##        'type': 'thoitiet'},
         ]:
         da_ta.soup_(
             url=s['url'],
             typ_e=s['type'],
             )
-        da_ta.saveload_model(cl=da_ta.cl)
+##        da_ta.saveload_model(cl=da_ta.cl)
